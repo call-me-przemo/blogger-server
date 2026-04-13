@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:18.3-alpine3.23
+    environment:
+      - POSTGRES_USER=blogger-app-user
+      - POSTGRES_PASSWORD=blogger-app-pass
+      - POSTGRES_DB=blogger-app-db
+    ports:
+      - 5432:5432
