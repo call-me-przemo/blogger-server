@@ -1,4 +1,4 @@
-import { runApp } from "./run-app";
+import { runApp } from "@/run-app";
 
 try {
   runApp();

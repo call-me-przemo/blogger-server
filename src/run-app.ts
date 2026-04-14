@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
-import { readEnvs } from "./config";
+import { readEnvs } from "@/config";
 
 export function runApp() {
   const envs = readEnvs();

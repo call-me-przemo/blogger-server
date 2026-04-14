@@ -1,6 +1,6 @@
 import { defineConfig } from "drizzle-kit";
 import { join } from "node:path";
-import { readEnvs } from "./src/config";
+import { readEnvs } from "@/config";
 
 const envs = readEnvs();
 
