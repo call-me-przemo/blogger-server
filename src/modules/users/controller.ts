@@ -1,18 +1,12 @@
 import type { UsersDatabaseService } from "./services";
-import { createFactory, type Factory } from "hono/factory";
+import type { Context } from "hono";
 
 export class UsersController {
-  private factory: Factory;
+  constructor(private dbService: UsersDatabaseService) {}
 
-  constructor(private dbService: UsersDatabaseService) {
-    this.factory = createFactory();
-  }
+  async getAllUsersList(ctx: Context) {
+    const users = await this.dbService.getAllUsers();
 
-  getAllUsersList() {
-    return this.factory.createHandlers(async (ctx) => {
-      const users = await this.dbService.getAllUsers();
-
-      return ctx.json(users);
-    });
+    return ctx.json({ users });
   }
 }

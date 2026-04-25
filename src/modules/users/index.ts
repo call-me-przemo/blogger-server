@@ -1,4 +1,3 @@
-import { usersSelectSchema } from "./schemas";
 import { UsersDatabaseService } from "./services";
 import { UsersController } from "./controller";
 import { Hono } from "hono";
@@ -10,7 +9,7 @@ export function createUsersRoutes(db: NodePgDatabase<typeof schemas>) {
   const dbService = new UsersDatabaseService(db);
   const usersController = new UsersController(dbService);
 
-  router.get("/", ...usersController.getAllUsersList());
+  router.get("/", usersController.getAllUsersList.bind(usersController));
 
   return router;
 }
