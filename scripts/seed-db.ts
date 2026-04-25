@@ -4,7 +4,7 @@ import { reset, seed } from "drizzle-seed";
 import { hash } from "argon2";
 
 const envs = readEnvs();
-const db = createDb({
+const db = await createDb({
   port: envs.DATABASE_PORT,
   host: envs.DATABASE_HOST,
   user: envs.DATABASE_USER,

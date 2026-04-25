@@ -5,16 +5,19 @@ import { HTTPException } from "hono/http-exception";
 import { createDb } from "@/database";
 import { createUsersRoutes } from "@/modules";
 
-export function createApp() {
+export async function createApp() {
   const envs = readEnvs();
   const app = new Hono();
-  const db = createDb({
-    port: envs.DATABASE_PORT,
-    host: envs.DATABASE_HOST,
-    user: envs.DATABASE_USER,
-    database: envs.DATABASE_SCHEMA,
-    password: envs.DATABASE_PASSWORD,
-  });
+  const db = await createDb(
+    {
+      port: envs.DATABASE_PORT,
+      host: envs.DATABASE_HOST,
+      user: envs.DATABASE_USER,
+      database: envs.DATABASE_SCHEMA,
+      password: envs.DATABASE_PASSWORD,
+    },
+    envs.APP_ENV === "development",
+  );
 
   if (envs.APP_ENV === "development") {
     app.use(logger());
@@ -34,6 +37,9 @@ export function createApp() {
       );
     })
     .onError((err, ctx) => {
+      // TODO: replace console with fully fledged logger
+      console.error(err);
+
       if (err instanceof HTTPException) {
         return err.getResponse();
       }

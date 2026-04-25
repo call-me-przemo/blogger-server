@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { createApp } from "@/create-app";
 
 try {
-  const { app, port } = createApp();
+  const { app, port } = await createApp();
   serve(
     {
       fetch: app.fetch,

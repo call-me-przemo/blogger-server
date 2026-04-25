@@ -1,11 +1,19 @@
 import * as schemas from "./schemas";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
 
-export function createDb(
+export async function createDb(
   connectionOptions: ConnectionOptions,
-): NodePgDatabase<typeof schemas> {
-  return drizzle(new Pool(connectionOptions));
+  logger?: boolean,
+) {
+  const db = drizzle({
+    connection: connectionOptions,
+    logger,
+  }) as NodePgDatabase<typeof schemas>;
+
+  // check db connection, it seems that drizzle connects on the first query
+  await db.execute("select 1");
+
+  return db;
 }
 
 interface ConnectionOptions {
