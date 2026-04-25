@@ -11,9 +11,29 @@ export function runApp() {
     app.use(logger());
   }
 
-  app.get("/", (c) => {
-    return c.text("Hello Hono!");
-  });
+  app
+    .notFound((ctx) => {
+      const httpCode = 404;
+
+      return ctx.json(
+        {
+          code: httpCode,
+          status: "Not found",
+        },
+        httpCode,
+      );
+    })
+    .onError((_err, ctx) => {
+      const httpCode = 500;
+
+      return ctx.json(
+        {
+          code: httpCode,
+          status: "Internal server error",
+        },
+        httpCode,
+      );
+    });
 
   serve(
     {
