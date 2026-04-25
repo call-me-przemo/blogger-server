@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { readEnvs } from "@/config";
+import { HTTPException } from "hono/http-exception";
 
 export function runApp() {
   const envs = readEnvs();
@@ -23,7 +24,11 @@ export function runApp() {
         httpCode,
       );
     })
-    .onError((_err, ctx) => {
+    .onError((err, ctx) => {
+      if (err instanceof HTTPException) {
+        return err.getResponse();
+      }
+
       const httpCode = 500;
 
       return ctx.json(
