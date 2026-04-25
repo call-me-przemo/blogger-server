@@ -1,7 +1,17 @@
-import { runApp } from "@/run-app";
+import { serve } from "@hono/node-server";
+import { createApp } from "@/create-app";
 
 try {
-  runApp();
+  const { app, port } = createApp();
+  serve(
+    {
+      fetch: app.fetch,
+      port,
+    },
+    (info) => {
+      console.log(`Server is running on http://localhost:${info.port}`);
+    },
+  );
 } catch (err) {
   console.error(err);
 }

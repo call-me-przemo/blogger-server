@@ -1,14 +1,14 @@
 import { pgTable, uuid, varchar, timestamp } from "drizzle-orm/pg-core";
-import { posts } from "./posts";
-import { users } from "./users";
+import { postsTable } from "./posts";
+import { usersTable } from "./users";
 
-export const comments = pgTable("comments", {
+export const commentsTable = pgTable("comments", {
   id: uuid().defaultRandom().primaryKey(),
   postId: uuid()
-    .references(() => posts.id, { onDelete: "cascade" })
+    .references(() => postsTable.id, { onDelete: "cascade" })
     .notNull(),
   userId: uuid()
-    .references(() => users.id)
+    .references(() => usersTable.id)
     .notNull(),
   content: varchar().notNull(),
   createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),

@@ -6,18 +6,18 @@ import {
   timestamp,
   pgEnum,
 } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { usersTable } from "./users";
 
-export const visibility = pgEnum("visibility", ["public", "members"]);
+export const visibilityEnum = pgEnum("visibility", ["public", "members"]);
 
-export const posts = pgTable("posts", {
+export const postsTable = pgTable("posts", {
   id: uuid().defaultRandom().primaryKey(),
   userId: uuid()
-    .references(() => users.id, { onDelete: "cascade" })
+    .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
   title: varchar().notNull(),
   content: text().notNull(),
-  visibility: visibility().notNull(),
+  visibility: visibilityEnum().notNull(),
   updatedAt: timestamp({ withTimezone: true }),
   createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
 });

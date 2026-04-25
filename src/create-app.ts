@@ -1,18 +1,27 @@
-import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { readEnvs } from "@/config";
 import { HTTPException } from "hono/http-exception";
+import { createDb } from "@/database";
+import { createUsersRoutes } from "@/modules";
 
-export function runApp() {
+export function createApp() {
   const envs = readEnvs();
   const app = new Hono();
+  const db = createDb({
+    port: envs.DATABASE_PORT,
+    host: envs.DATABASE_HOST,
+    user: envs.DATABASE_USER,
+    database: envs.DATABASE_SCHEMA,
+    password: envs.DATABASE_PASSWORD,
+  });
 
   if (envs.APP_ENV === "development") {
     app.use(logger());
   }
 
   app
+    .route("/users", createUsersRoutes(db))
     .notFound((ctx) => {
       const httpCode = 404;
 
@@ -40,13 +49,5 @@ export function runApp() {
       );
     });
 
-  serve(
-    {
-      fetch: app.fetch,
-      port: envs.APP_PORT,
-    },
-    (info) => {
-      console.log(`Server is running on http://localhost:${info.port}`);
-    },
-  );
+  return { app, port: envs.APP_PORT };
 }

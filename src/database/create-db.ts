@@ -1,7 +1,10 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+import * as schemas from "./schemas";
+import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-export function createDb(connectionOptions: ConnectionOptions) {
+export function createDb(
+  connectionOptions: ConnectionOptions,
+): NodePgDatabase<typeof schemas> {
   return drizzle(new Pool(connectionOptions));
 }
 

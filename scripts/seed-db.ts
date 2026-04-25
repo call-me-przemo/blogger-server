@@ -1,4 +1,4 @@
-import { createDb, users, posts, comments } from "@/database";
+import { createDb, usersTable, postsTable, commentsTable } from "@/database";
 import { readEnvs } from "@/config";
 import { reset, seed } from "drizzle-seed";
 import { hash } from "argon2";
@@ -13,22 +13,22 @@ const db = createDb({
 });
 const password = await hash("password");
 
-await reset(db, { users, posts, comments });
-await seed(db, { users, posts, comments }).refine((funcs) => ({
-  users: {
+await reset(db, { usersTable, postsTable, commentsTable });
+await seed(db, { usersTable, postsTable, commentsTable }).refine((funcs) => ({
+  usersTable: {
     count: 82,
     columns: {
       password: funcs.default({ defaultValue: password }),
     },
-    with: { posts: 5, comments: 7 },
+    with: { postsTable: 5, commentsTable: 7 },
   },
-  posts: {
+  postsTable: {
     columns: {
       title: funcs.loremIpsum(),
       content: funcs.loremIpsum({ sentencesCount: 20 }),
     },
   },
-  comments: {
+  commentsTable: {
     columns: {
       content: funcs.loremIpsum(),
     },
