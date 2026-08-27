@@ -1,13 +1,13 @@
-import z from "zod";
+import { object, enum as zodEnum, string, coerce } from "zod";
 
-const envSchema = z.object({
-  APP_ENV: z.enum(["development", "production"]),
-  APP_PORT: z.coerce.number().int().gte(1).lte(65535),
-  DATABASE_HOST: z.string(),
-  DATABASE_PORT: z.coerce.number().int().gte(1).lte(65535),
-  DATABASE_USER: z.string(),
-  DATABASE_PASSWORD: z.string(),
-  DATABASE_SCHEMA: z.string(),
+const envSchema = object({
+  APP_ENV: zodEnum(["development", "production"]),
+  APP_PORT: coerce.number().int().gte(1).lte(65535),
+  DATABASE_HOST: string(),
+  DATABASE_PORT: coerce.number().int().gte(1).lte(65535),
+  DATABASE_USER: string(),
+  DATABASE_PASSWORD: string(),
+  DATABASE_SCHEMA: string(),
 });
 
 export function readEnvs() {

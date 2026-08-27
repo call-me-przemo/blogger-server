@@ -7,6 +7,6 @@ export class UsersController {
   async getAllUsersList(ctx: Context) {
     const users = await this.dbService.getAllUsers();
 
-    return ctx.json({ users });
+    return ctx.json(users);
   }
 }

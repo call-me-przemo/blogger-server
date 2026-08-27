@@ -4,6 +4,8 @@ import { readEnvs } from "@/config";
 import { HTTPException } from "hono/http-exception";
 import { createDb } from "@/database";
 import { createUsersRoutes } from "@/modules";
+import { openAPIRouteHandler } from "hono-openapi";
+import { Scalar } from "@scalar/hono-api-reference";
 
 export async function createApp() {
   const envs = readEnvs();
@@ -21,6 +23,22 @@ export async function createApp() {
 
   if (envs.APP_ENV === "development") {
     app.use(logger());
+    app.get(
+      "/openapi",
+      openAPIRouteHandler(app, {
+        documentation: {
+          info: {
+            title: "Blogger REST API",
+            version: "1.0.0",
+            description: "REST API for managing simple blogging system",
+          },
+          servers: [
+            { url: "http://localhost:3000", description: "Local Server" },
+          ],
+        },
+      }),
+    );
+    app.get("/scalar", Scalar({ url: "/openapi" }));
   }
 
   app
