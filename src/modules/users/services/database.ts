@@ -1,10 +1,10 @@
-import * as schemas from "@/database/schemas";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { DatabaseSchemasType } from "@/database";
+import { usersTable } from "@/database/schemas";
 
 export class UsersDatabaseService {
-  constructor(private db: NodePgDatabase<typeof schemas>) {}
+  constructor(private db: DatabaseSchemasType) {}
 
   async getAllUsers() {
-    return this.db.select().from(schemas.usersTable);
+    return this.db.select().from(usersTable);
   }
 }

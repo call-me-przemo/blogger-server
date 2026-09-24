@@ -2,11 +2,11 @@
   "name": "blogger-server",
   "type": "module",
   "scripts": {
-    "dev": "tsx --env-file .env --watch src/index.ts",
+    "dev": "tsx --env-file .env --watch src/server.ts",
     "push-db": "drizzle-kit push --force",
     "seed-db": "tsx --env-file .env scripts/seed-db.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.13",
