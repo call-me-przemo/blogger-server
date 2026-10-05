@@ -5,6 +5,7 @@ import { describeRoute, resolver } from "hono-openapi";
 
 export const usersSelectSchema = describeRoute({
   description: "Returns list of all users",
+  tags: ["Users"],
   responses: {
     200: {
       description: "OK",

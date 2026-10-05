@@ -10,7 +10,7 @@ export async function createApp(db: DatabaseSchemasType, appEnv: string) {
     const { createOpenApiRoutes } = await import("@/config");
 
     app.use(logger());
-    app.route("/openapi", createOpenApiRoutes());
+    app.route("/openapi", createOpenApiRoutes(app));
   }
 
   app.route("/users", createUsersRoutes(db));

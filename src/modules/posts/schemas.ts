@@ -5,6 +5,7 @@ import { describeRoute, resolver } from "hono-openapi";
 
 export const postsSelectSchema = describeRoute({
   description: "Returns list of all posts",
+  tags: ["Posts"],
   responses: {
     200: {
       description: "OK",
