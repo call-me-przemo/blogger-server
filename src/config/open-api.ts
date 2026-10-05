@@ -1,4 +1,4 @@
-import { Scalar } from "@scalar/hono-api-reference";
+import { swaggerUI } from "@hono/swagger-ui";
 import { Hono } from "hono";
 import { openAPIRouteHandler } from "hono-openapi";
 
@@ -21,7 +21,7 @@ export function createOpenApiRoutes() {
     }),
   );
 
-  router.get("/ui", Scalar({ url: "schema" }));
+  router.get("/ui", swaggerUI({ url: "schema" }));
 
   return router;
 }
