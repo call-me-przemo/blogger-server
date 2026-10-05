@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { createUsersRoutes } from "@/modules";
+import { createUsersRoutes, createPostsRoutes } from "@/modules";
 import { type DatabaseSchemasType } from "@/database";
 
 export async function createApp(db: DatabaseSchemasType, appEnv: string) {
@@ -14,6 +14,7 @@ export async function createApp(db: DatabaseSchemasType, appEnv: string) {
   }
 
   app.route("/users", createUsersRoutes(db));
+  app.route("/posts", createPostsRoutes(db));
 
   return app;
 }
