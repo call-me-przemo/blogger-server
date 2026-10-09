@@ -8,7 +8,7 @@ export async function createDb(
   const db = drizzle({
     connection: connectionOptions,
     logger,
-  }) as DatabaseSchemasType;
+  }) as unknown as DatabaseSchemasType;
 
   // check db connection, it seems that drizzle connects on the first query
   await db.execute("select 1");

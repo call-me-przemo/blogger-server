@@ -6,7 +6,7 @@ const envs = readEnvs();
 
 export default defineConfig({
   out: join("src", "database", "migrations"),
-  schema: join("src", "database", "schemas"),
+  schema: join("src", "database", "schemas", "index.ts"),
   dialect: "postgresql",
   dbCredentials: {
     port: envs.DATABASE_PORT,
