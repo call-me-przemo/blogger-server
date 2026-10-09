@@ -1,20 +1,17 @@
-import { dbSchema } from "../create-db";
-import { usersTable } from "./users";
+import { schemaName } from "../schema-name";
+import { users } from "./users";
 
-export const visibilityEnum = dbSchema.enum("visibility", [
-  "public",
-  "members",
-]);
+export const visibility = schemaName.enum("visibility", ["public", "members"]);
 
-export const postsTable = dbSchema.table("posts", (t) => ({
+export const posts = schemaName.table("posts", (t) => ({
   id: t.uuid().defaultRandom().primaryKey(),
   userId: t
     .uuid()
-    .references(() => usersTable.id, { onDelete: "cascade" })
+    .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   title: t.varchar().notNull(),
   content: t.text().notNull(),
-  visibility: visibilityEnum().notNull(),
+  visibility: visibility().notNull(),
   updatedAt: t.timestamp({ withTimezone: true }),
   createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
 }));

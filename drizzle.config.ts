@@ -8,7 +8,7 @@ const dbDirPath = join("src", "database");
 export default defineConfig({
   out: join("src", "database", "migrations"),
   schema: [
-    join(dbDirPath, "create-db.ts"),
+    join(dbDirPath, "schema-name.ts"),
     join(dbDirPath, "schemas", "index.ts"),
   ],
   dialect: "postgresql",

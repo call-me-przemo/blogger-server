@@ -1,6 +1,6 @@
-import { dbSchema } from "../create-db";
+import { schemaName } from "../schema-name";
 
-export const usersTable = dbSchema.table("users", (t) => ({
+export const users = schemaName.table("users", (t) => ({
   id: t.uuid().defaultRandom().primaryKey(),
   firstName: t.varchar().notNull(),
   lastName: t.varchar().notNull(),

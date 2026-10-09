@@ -2,7 +2,7 @@ import type { DatabaseSchemasType } from "@/database";
 import { Hono } from "hono";
 import { PostsDatabaseService } from "./services";
 import { PostsController } from "./controller";
-import { postsSelectSchema } from "./schemas";
+import { getAllPosts, getOnePost } from "./schemas";
 
 export function createPostsRoutes(db: DatabaseSchemasType) {
   const router = new Hono();
@@ -11,8 +11,14 @@ export function createPostsRoutes(db: DatabaseSchemasType) {
 
   router.get(
     "/",
-    postsSelectSchema,
+    getAllPosts,
     postsController.getAllPostsList.bind(postsController),
+  );
+
+  router.get(
+    "/:id",
+    getOnePost,
+    postsController.getOnePost.bind(postsController),
   );
 
   return router;

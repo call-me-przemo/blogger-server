@@ -1,6 +1,5 @@
-import { pgSchema } from "drizzle-orm/pg-core";
-import { type DatabaseSchemasType } from "./types";
 import { drizzle } from "drizzle-orm/node-postgres";
+import { relations } from "./relations";
 
 export async function createDb(
   connectionOptions: ConnectionOptions,
@@ -9,7 +8,8 @@ export async function createDb(
   const db = drizzle({
     connection: connectionOptions,
     logger,
-  }) as unknown as DatabaseSchemasType;
+    relations,
+  });
 
   // check db connection, it seems that drizzle connects on the first query
   await db.execute("select 1");
@@ -17,7 +17,7 @@ export async function createDb(
   return db;
 }
 
-export const dbSchema = pgSchema("blogger-app");
+export type DatabaseSchemasType = Awaited<ReturnType<typeof createDb>>;
 
 interface ConnectionOptions {
   port: number;

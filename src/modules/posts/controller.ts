@@ -9,4 +9,10 @@ export class PostsController {
 
     return ctx.json(posts);
   }
+
+  async getOnePost(ctx: Context) {
+    const post = await this.dbService.getOnePost(ctx.req.param("id")!);
+
+    return ctx.json(post);
+  }
 }

@@ -1,4 +1,4 @@
-import { usersTable } from "@/database";
+import { users } from "@/database";
 import { createSelectSchema } from "drizzle-orm/zod";
 import { array } from "zod";
 import { describeRoute, resolver } from "hono-openapi";
@@ -11,7 +11,7 @@ export const usersSelectSchema = describeRoute({
       description: "OK",
       content: {
         "application/json": {
-          schema: resolver(array(createSelectSchema(usersTable))),
+          schema: resolver(array(createSelectSchema(users))),
         },
       },
     },

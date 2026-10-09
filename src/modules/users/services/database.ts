@@ -1,10 +1,9 @@
-import type { DatabaseSchemasType } from "@/database";
-import { usersTable } from "@/database/schemas";
+import { type DatabaseSchemasType, users } from "@/database";
 
 export class UsersDatabaseService {
   constructor(private readonly db: DatabaseSchemasType) {}
 
   async getAllUsers() {
-    return this.db.select().from(usersTable);
+    return this.db.select().from(users);
   }
 }

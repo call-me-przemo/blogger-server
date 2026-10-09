@@ -1,16 +1,15 @@
-import { dbSchema } from "../create-db";
-import { postsTable } from "./posts";
-import { usersTable } from "./users";
+import { schemaName } from "../schema-name";
+import { posts, users } from ".";
 
-export const commentsTable = dbSchema.table("comments", (t) => ({
+export const comments = schemaName.table("comments", (t) => ({
   id: t.uuid().defaultRandom().primaryKey(),
   postId: t
     .uuid()
-    .references(() => postsTable.id, { onDelete: "cascade" })
+    .references(() => posts.id, { onDelete: "cascade" })
     .notNull(),
   userId: t
     .uuid()
-    .references(() => usersTable.id)
+    .references(() => users.id)
     .notNull(),
   content: t.varchar().notNull(),
   createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
