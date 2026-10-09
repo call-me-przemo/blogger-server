@@ -3,10 +3,14 @@ import { join } from "node:path";
 import { readEnvs } from "@/config";
 
 const envs = readEnvs();
+const dbDirPath = join("src", "database");
 
 export default defineConfig({
   out: join("src", "database", "migrations"),
-  schema: join("src", "database", "schemas", "index.ts"),
+  schema: [
+    join(dbDirPath, "create-db.ts"),
+    join(dbDirPath, "schemas", "index.ts"),
+  ],
   dialect: "postgresql",
   dbCredentials: {
     port: envs.DATABASE_PORT,

@@ -1,11 +1,11 @@
-import { pgTable, uuid, varchar, timestamp } from "drizzle-orm/pg-core";
+import { dbSchema } from "../create-db";
 
-export const usersTable = pgTable("users", {
-  id: uuid().defaultRandom().primaryKey(),
-  firstName: varchar().notNull(),
-  lastName: varchar().notNull(),
-  email: varchar().unique().notNull(),
-  password: varchar().notNull(),
-  updatedAt: timestamp({ withTimezone: true }),
-  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-});
+export const usersTable = dbSchema.table("users", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey(),
+  firstName: t.varchar().notNull(),
+  lastName: t.varchar().notNull(),
+  email: t.varchar().unique().notNull(),
+  password: t.varchar().notNull(),
+  updatedAt: t.timestamp({ withTimezone: true }),
+  createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
+}));

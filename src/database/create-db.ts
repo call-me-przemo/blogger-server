@@ -1,3 +1,4 @@
+import { pgSchema } from "drizzle-orm/pg-core";
 import { type DatabaseSchemasType } from "./types";
 import { drizzle } from "drizzle-orm/node-postgres";
 
@@ -15,6 +16,8 @@ export async function createDb(
 
   return db;
 }
+
+export const dbSchema = pgSchema("blogger-app");
 
 interface ConnectionOptions {
   port: number;

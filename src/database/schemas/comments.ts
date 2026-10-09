@@ -1,15 +1,17 @@
-import { pgTable, uuid, varchar, timestamp } from "drizzle-orm/pg-core";
+import { dbSchema } from "../create-db";
 import { postsTable } from "./posts";
 import { usersTable } from "./users";
 
-export const commentsTable = pgTable("comments", {
-  id: uuid().defaultRandom().primaryKey(),
-  postId: uuid()
+export const commentsTable = dbSchema.table("comments", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey(),
+  postId: t
+    .uuid()
     .references(() => postsTable.id, { onDelete: "cascade" })
     .notNull(),
-  userId: uuid()
+  userId: t
+    .uuid()
     .references(() => usersTable.id)
     .notNull(),
-  content: varchar().notNull(),
-  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-});
+  content: t.varchar().notNull(),
+  createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
+}));

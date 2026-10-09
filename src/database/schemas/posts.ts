@@ -1,23 +1,20 @@
-import {
-  pgTable,
-  text,
-  uuid,
-  varchar,
-  timestamp,
-  pgEnum,
-} from "drizzle-orm/pg-core";
+import { dbSchema } from "../create-db";
 import { usersTable } from "./users";
 
-export const visibilityEnum = pgEnum("visibility", ["public", "members"]);
+export const visibilityEnum = dbSchema.enum("visibility", [
+  "public",
+  "members",
+]);
 
-export const postsTable = pgTable("posts", {
-  id: uuid().defaultRandom().primaryKey(),
-  userId: uuid()
+export const postsTable = dbSchema.table("posts", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey(),
+  userId: t
+    .uuid()
     .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
-  title: varchar().notNull(),
-  content: text().notNull(),
+  title: t.varchar().notNull(),
+  content: t.text().notNull(),
   visibility: visibilityEnum().notNull(),
-  updatedAt: timestamp({ withTimezone: true }),
-  createdAt: timestamp({ withTimezone: true }).defaultNow().notNull(),
-});
+  updatedAt: t.timestamp({ withTimezone: true }),
+  createdAt: t.timestamp({ withTimezone: true }).defaultNow().notNull(),
+}));
