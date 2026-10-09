@@ -1,5 +1,5 @@
 import { postsTable, commentsTable } from "@/database";
-import { createSelectSchema } from "drizzle-zod";
+import { createSelectSchema } from "drizzle-orm/zod";
 import { array } from "zod";
 import { describeRoute, resolver } from "hono-openapi";
 
